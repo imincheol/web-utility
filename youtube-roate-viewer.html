@@ -18,6 +18,8 @@
       }
       a {
         text-decoration: none;
+        color: black;
+        display: block;
       }
     </style>
     <div class="main">
@@ -25,8 +27,9 @@
         <iframe class="content" width="640" height="360" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
       <div class="sub" width="100">
-        <a href="http://lucablaq.com/index.php?mid=board_iuVb40&document_srl=201" target="about: black;">i</a>
-        <p class="btnRotate" style="user-select: none;">r</p>
+        <a href="http://lucablaq.com/index.php?mid=board_iuVb40&document_srl=201" target="about: black;" title="How to use">H</a>
+        <a href="javascript:void(0);" class="btnRotate" style="user-select: none;" title="Rotate">R</a>
+        <a href="javascript:void(0);" style="user-select: none;" title="contact: lucablaq@oddnori.com">C</a>
       </div>  
       <div class="toolbar" style="display: none;">
         
@@ -123,7 +126,13 @@
         var params = undefined;
         var search = location.search.substring(1);
         if ( search ) {
-          params = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');  
+          // params = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');  
+          params = search.split("&").reduce((acc, val)=>{
+            var qKey = val.substring(0,1);
+            var qValue = val.substring(2);
+            acc[qKey] = qValue;
+            return acc;
+          }, {});
         }
         return params
       }
@@ -160,12 +169,18 @@
         showYouTube( url );
       }
       function showYouTube(url) {
+        // url : https://www.youtube.com/watch?v=s2Ur74vVZPM
         // share url : https://youtu.be/dGqQOmykbLE
         // embed url : https://www.youtube.com/embed/dGqQOmykbLE
         // key: dGqQOmykbLE
         
         var units = url.split('/');
         var key = units.pop();
+        if ( key.indexOf("=") > -1 ) {
+          key = key.split("=").pop();
+        }
+          
+        https://www.youtube.com/watch?v=s2Ur74vVZPM
         url = 'https://www.youtube.com/embed/' + key;
         
         elContent.src = url;
